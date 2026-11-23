@@ -1,0 +1,14 @@
+{
+  "language": "ru",
+  "pause_duration_min": 15,
+  "close_to_tray": true,
+  "tray_note_shown": false,
+  "engine_keep_alive": false,
+  "protection_paused_until": null,
+  "schedule_enabled": false,
+  "schedule_time": "00:00",
+  "schedule_kind": "quick",
+  "schedule_last_run": null,
+  "last_update_check": null,
+  "exclusions": []
+}

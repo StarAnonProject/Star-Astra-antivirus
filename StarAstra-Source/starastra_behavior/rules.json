@@ -1,0 +1,57 @@
+{
+  "_comment": "Правила поведенческого анализа (Спринт 5). match: on=new_process — пары родитель/потомок и маркеры cmdline; on=network_activity — процесс из Temp/Downloads с внешними соединениями. Имена — lower-case. Правила редактируются без кода; при отсутствии файла движок использует встроенную копию.",
+  "rules": [
+    {
+      "id": "office_shell",
+      "severity": "HIGH",
+      "on": "new_process",
+      "match": {
+        "parent_names": ["winword.exe", "excel.exe", "powerpnt.exe",
+                          "outlook.exe", "mspub.exe", "access.exe",
+                          "soffice.bin"],
+        "child_names": ["cmd.exe", "powershell.exe", "pwsh.exe",
+                          "wscript.exe", "cscript.exe", "mshta.exe",
+                          "rundll32.exe", "regsvr32.exe"]
+      }
+    },
+    {
+      "id": "lolbins",
+      "severity": "HIGH",
+      "on": "new_process",
+      "match": {
+        "child_names": ["certutil.exe", "bitsadmin.exe", "mshta.exe",
+                          "rundll32.exe", "regsvr32.exe", "regasm.exe",
+                          "installutil.exe", "msbuild.exe", "wmic.exe",
+                          "schtasks.exe", "certreq.exe", "at.exe",
+                          "curl.exe", "ftp.exe", "tftp.exe"]
+      }
+    },
+    {
+      "id": "ps_encoded",
+      "severity": "HIGH",
+      "on": "new_process",
+      "match": {
+        "child_names": ["powershell.exe", "pwsh.exe"],
+        "cmdline_regex": ["-enc(odedcommand)?\\b", "-w\\s+hidden",
+                            "-windowstyle\\s+hidden", "-noni\\b"]
+      }
+    },
+    {
+      "id": "temp_network",
+      "severity": "HIGH",
+      "on": "network_activity",
+      "match": {
+        "exe_dir_markers": ["\\temp\\", "\\tmp\\", "\\downloads\\",
+                              "\\appdata\\local\\temp\\"]
+      }
+    },
+    {
+      "id": "script_engine",
+      "severity": "HIGH",
+      "on": "new_process",
+      "match": {
+        "parent_names": ["wscript.exe", "cscript.exe", "mshta.exe"]
+      }
+    }
+  ]
+}
